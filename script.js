@@ -1,6 +1,10 @@
 let wins = 0;
 let losses = 0;
+let gameOver = false;
 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 function computerPlay() {
     const computerNumber = Math.floor(Math.random() * 3);
@@ -16,10 +20,13 @@ function computerPlay() {
 
 
 function playRound (playerSelection, computerSelection) {
-    console.log(playerSelection);
-    console.log(computerSelection);
+    // display the results of the round
+    const results = document.querySelector('.results');
     let message;
     if (playerSelection === computerSelection) {
+        // made everything capital at the beginning and don't want to change it back
+        playerSelection = capitalizeFirstLetter(playerSelection.toLowerCase());
+        computerSelection = capitalizeFirstLetter(computerSelection.toLowerCase());
         message = `Draw! ${playerSelection} ties against ${computerSelection}!`;
     }
     if (playerSelection === "ROCK" && computerSelection === "SCISSORS") {
@@ -46,22 +53,40 @@ function playRound (playerSelection, computerSelection) {
         losses++;
         message = "You Lose! Paper beats Rock";
     }
-    console.log(message);
+    results.textContent = message;
+
+    // end game
+    if (wins === 5 || losses === 5) {
+        printResults();
+        gameOver = true;
+    }
+    printScore();
+}
+
+function printScore() {
+    let message = `Player: ${wins}, Computer: ${losses}`;
+    const score = document.querySelector('.score');
+    score.textContent = message;
 }
 
 function printResults () {
-    console.log("\n");
-    console.log("----------");
+    const container = document.querySelector('.container');
+    const gameOverMessage = document.createElement('div');
+    let message;
     if (wins > losses) {
-        console.log("Congratulations! You win the game!");
+        message = "Congratulations! You win the game!";
     }
     else if (wins === losses) {
-        console.log("Aww... It was a draw.");
+        message = "Aww... It was a draw.";
     }
     else {
-        console.log("Oof, you lost. :\(");
+        message = "Oof, you lost. :\(";
     }
+    gameOverMessage.textContent = message;
+    container.appendChild(gameOverMessage);
 }
 
+
 const buttons = document.querySelectorAll('button');
-buttons.forEach(button => button.addEventListener('click', () => playRound(button.dataset.selection, computerPlay())));
+buttons.forEach(button => button.addEventListener('click', () => 
+{if (!gameOver) playRound(button.dataset.selection, computerPlay())}));
