@@ -7,44 +7,46 @@ function computerPlay() {
     switch(computerNumber) {
         case 0:
             return "ROCK";
-            break;
         case 1:
             return "PAPER";
-            break;
         case 2:
             return "SCISSORS";
-            break;
     }
 }
+
+
 function playRound (playerSelection, computerSelection) {
-    playerSelection = playerSelection.toUpperCase();
+    console.log(playerSelection);
+    console.log(computerSelection);
+    let message;
     if (playerSelection === computerSelection) {
-        return `Draw! ${playerSelection} ties against ${computerSelection}!`;
+        message = `Draw! ${playerSelection} ties against ${computerSelection}!`;
     }
     if (playerSelection === "ROCK" && computerSelection === "SCISSORS") {
         wins++;
-        return "You Win! Rock beats Scissors";
+        message = "You Win! Rock beats Scissors";
     }
     if (playerSelection === "SCISSORS" && computerSelection === "PAPER") {
         wins++;
-        return "You Win! Scissors beats Paper";
+        message = "You Win! Scissors beats Paper";
     }
     if (playerSelection === "PAPER" && computerSelection === "ROCK") {
         wins++;
-        return "You Win! Scissors beats Paper";
+        message = "You Win! Paper beats Rock";
     }
     if (playerSelection === "SCISSORS" && computerSelection === "ROCK") {
         losses++;
-        return "You Lose! Rock beats Scissors";
+        message = "You Lose! Rock beats Scissors";
     }
     if (playerSelection === "PAPER" && computerSelection === "SCISSORS") {
         losses++;
-        return "You Lose! Scissors beats Paper";
+        message = "You Lose! Scissors beats Paper";
     }
     if (playerSelection === "ROCK" && computerSelection === "PAPER") {
         losses++;
-        return "You Lose! Scissors beats Paper";
+        message = "You Lose! Paper beats Rock";
     }
+    console.log(message);
 }
 
 function printResults () {
@@ -61,12 +63,5 @@ function printResults () {
     }
 }
 
-function game() {
-    for (let i = 1; i <= 5; ++i) {
-        let userInput = prompt(`Enter your selection. Round: ${i}`);
-        console.log(playRound(userInput, computerPlay()));
-    }
-    printResults();
-}
-
-game();
+const buttons = document.querySelectorAll('button');
+buttons.forEach(button => button.addEventListener('click', () => playRound(button.dataset.selection, computerPlay())));
