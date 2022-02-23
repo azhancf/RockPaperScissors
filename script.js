@@ -28,30 +28,37 @@ function playRound (playerSelection, computerSelection) {
         playerSelection = capitalizeFirstLetter(playerSelection.toLowerCase());
         computerSelection = capitalizeFirstLetter(computerSelection.toLowerCase());
         message = `Draw! ${playerSelection} ties against ${computerSelection}!`;
+        results.style.color = 'black';
     }
     if (playerSelection === "ROCK" && computerSelection === "SCISSORS") {
         wins++;
         message = "You Win! Rock beats Scissors";
+        results.style.color = 'green';
     }
     if (playerSelection === "SCISSORS" && computerSelection === "PAPER") {
         wins++;
         message = "You Win! Scissors beats Paper";
+        results.style.color = 'green';
     }
     if (playerSelection === "PAPER" && computerSelection === "ROCK") {
         wins++;
         message = "You Win! Paper beats Rock";
+        results.style.color = 'green';
     }
     if (playerSelection === "SCISSORS" && computerSelection === "ROCK") {
         losses++;
         message = "You Lose! Rock beats Scissors";
+        results.style.color = 'red';
     }
     if (playerSelection === "PAPER" && computerSelection === "SCISSORS") {
         losses++;
         message = "You Lose! Scissors beats Paper";
+        results.style.color = 'red';
     }
     if (playerSelection === "ROCK" && computerSelection === "PAPER") {
         losses++;
         message = "You Lose! Paper beats Rock";
+        results.style.color = 'red';
     }
     results.textContent = message;
 
@@ -64,14 +71,14 @@ function playRound (playerSelection, computerSelection) {
 }
 
 function printScore() {
-    let message = `Player: ${wins}, Computer: ${losses}`;
+    let message = `Player: ${wins} | Computer: ${losses}`;
     const score = document.querySelector('.score');
     score.textContent = message;
 }
 
 function printResults () {
-    const container = document.querySelector('.container');
-    const gameOverMessage = document.createElement('div');
+    const text = document.querySelector('.text');
+    let gameOverMessage = document.createElement('div');
     let message;
     if (wins > losses) {
         message = "Congratulations! You win the game!";
@@ -83,10 +90,13 @@ function printResults () {
         message = "Oof, you lost. :\(";
     }
     gameOverMessage.textContent = message;
-    container.appendChild(gameOverMessage);
+    gameOverMessage.style.fontSize = '50px';
+    text.appendChild(gameOverMessage);
 }
 
 
 const buttons = document.querySelectorAll('button');
-buttons.forEach(button => button.addEventListener('click', () => 
-{if (!gameOver) playRound(button.dataset.selection, computerPlay())}));
+buttons.forEach(button => button.addEventListener('click', () => {
+    if (!gameOver) playRound(button.dataset.selection, computerPlay())
+}));
+
